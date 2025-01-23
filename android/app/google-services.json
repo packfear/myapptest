@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "821323158948",
+    "project_id": "tendanceemployee",
+    "storage_bucket": "tendanceemployee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821323158948:android:9154f3e71c1a582dabdd31",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFZSVgINYFYzBCRcwLR4U2NOeXsCGHUyw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821323158948:android:5ac35f0e1e64c7c6abdd31",
+        "android_client_info": {
+          "package_name": "com.packfear.msg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFZSVgINYFYzBCRcwLR4U2NOeXsCGHUyw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
