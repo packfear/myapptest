@@ -13,6 +13,10 @@ class SingUpPage extends StatefulWidget {
 class _SingUpPageState extends State<SingUpPage> {
   final _auth = FirebaseAuth.instance;
 
+  late String email;
+  late String password;
+  late String repeatPassword;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,7 +37,9 @@ class _SingUpPageState extends State<SingUpPage> {
                   keyboardType: TextInputType.emailAddress,
                   isabscured: false,
                   hintText: 'Email',
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    email = value;
+                  },
                 ),
                 const SizedBox(
                   height: 10,
@@ -42,7 +48,9 @@ class _SingUpPageState extends State<SingUpPage> {
                   keyboardType: TextInputType.text,
                   isabscured: true,
                   hintText: 'Password',
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    password = value;
+                  },
                 ),
                 const SizedBox(
                   height: 10,
@@ -51,13 +59,42 @@ class _SingUpPageState extends State<SingUpPage> {
                   keyboardType: TextInputType.text,
                   isabscured: true,
                   hintText: 'Repeat Password',
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    repeatPassword = value;
+                  },
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 MyButton(
-                    color: Colors.blue[900]!, onPressed: () {}, text: 'Sign Up')
+                    color: Colors.blue[900]!,
+                    onPressed: () {
+                      if (email.isNotEmpty &&
+                          password.isNotEmpty &&
+                          repeatPassword.isNotEmpty) {
+                            try {
+                              if (password == repeatPassword) {
+                          _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                        }
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('You have problem'),
+                          ),
+                        );
+                              
+                            }
+                        
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill all the fields'),
+                          ),
+                        );
+                      }
+                    },
+                    text: 'Sign Up')
               ],
             ),
           ),
