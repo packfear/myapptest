@@ -28,7 +28,7 @@ class _ChatPageState extends State<ChatPage> {
               height: 25,
             ),
             const SizedBox(
-              width: 5,
+              width: 8,
             ),
             const Text(
               'Message Me',
