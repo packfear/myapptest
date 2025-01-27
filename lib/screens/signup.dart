@@ -68,25 +68,23 @@ class _SingUpPageState extends State<SingUpPage> {
                 ),
                 MyButton(
                     color: Colors.blue[900]!,
-                    onPressed: () {
+                    onPressed: () async {
                       if (email.isNotEmpty &&
                           password.isNotEmpty &&
                           repeatPassword.isNotEmpty) {
-                            try {
-                              if (password == repeatPassword) {
-                          _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
+                        try {
+                          if (password == repeatPassword) {
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                          }
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('You have problem'),
+                            ),
+                          );
                         }
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('You have problem'),
-                          ),
-                        );
-                              
-                            }
-                        
-                      }else{
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Please fill all the fields'),
