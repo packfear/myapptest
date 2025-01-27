@@ -59,6 +59,7 @@ class _ChatPageState extends State<ChatPage> {
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     hintText: 'Enter your message here',
+                    hintStyle: TextStyle(color: Colors.grey),
                     border: InputBorder.none,
                   ),
                 )),
@@ -67,7 +68,7 @@ class _ChatPageState extends State<ChatPage> {
                     child: Text('Send',
                         style: TextStyle(
                             color: Colors.blue[800],
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold)))
               ],
             ),

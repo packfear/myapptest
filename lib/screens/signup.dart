@@ -76,6 +76,7 @@ class _SingUpPageState extends State<SingUpPage> {
                           if (password == repeatPassword) {
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
+                            Navigator.pushNamed(context, 'chat_page');
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(

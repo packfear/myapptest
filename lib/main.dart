@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -27,9 +27,8 @@ class MyApp extends StatelessWidget {
         routes: {
           'welcome_page': (context) => const WelcomePage(),
           'signup': (context) => const SingUpPage(),
-          'register_page': (context) => const ChatPage(),
+          'chat_page': (context) => const ChatPage(),
           'signin_page': (context) => const SignInPage(),
         });
   }
 }
-  
