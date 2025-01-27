@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/widgets/mybutton.dart';
 import 'package:myapp/widgets/mytextfield.dart';
@@ -10,6 +11,10 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +33,9 @@ class _SignInPageState extends State<SignInPage> {
               keyboardType: TextInputType.emailAddress,
               isabscured: false,
               hintText: 'Email',
-              onChanged: (value) {},
+              onChanged: (value) {
+                email = value;
+              },
             ),
             const SizedBox(
               height: 10,
@@ -37,11 +44,28 @@ class _SignInPageState extends State<SignInPage> {
               keyboardType: TextInputType.text,
               isabscured: true,
               hintText: 'Password',
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value;
+              },
             ),
-            const SizedBox(height: 10,),
-            MyButton(color: Colors.orange[900]!, onPressed: (){}, text: 'Sign In')
-
+            const SizedBox(
+              height: 10,
+            ),
+            MyButton(
+                color: Colors.orange[900]!,
+                onPressed: () async {
+                  try {
+                    final user = await _auth.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    if (user != null) {
+                      Navigator.pushNamed(context, 'chat_page');
+                    }
+                  } on Exception catch (e) {
+                    // TODO
+                    print(e);
+                  }
+                },
+                text: 'Sign In')
           ],
         ),
       ),

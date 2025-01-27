@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
@@ -8,6 +9,28 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final _auth = FirebaseAuth.instance;
+  late User user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        print(user.email);
+      }
+    } on Exception catch (e) {
+      // TODO
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +38,10 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.orange[700],
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _auth.signOut();
+                Navigator.pop(context);
+              },
               icon: const Icon(
                 Icons.close,
                 color: Colors.white,
