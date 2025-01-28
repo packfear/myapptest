@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +11,13 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final _auth = FirebaseAuth.instance;
-  late User user;
+  final _firestore = FirebaseFirestore.instance;
+
+  late User signedUser;
+  String? messageText;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUser();
   }
@@ -23,6 +26,7 @@ class _ChatPageState extends State<ChatPage> {
     try {
       final user = _auth.currentUser;
       if (user != null) {
+        signedUser = user;
         print(user.email);
       }
     } on Exception catch (e) {
@@ -30,6 +34,23 @@ class _ChatPageState extends State<ChatPage> {
       print(e);
     }
   }
+
+  void messagesStream() async {
+    final snapshots = _firestore.collection('messages').snapshots();
+
+    await for (var snapshot in snapshots) {
+      for (var message in snapshot.docs) {
+        print(message.data());
+      }
+    }
+  }
+
+  // void getMessages() async {
+  //   final messages = await _firestore.collection('messages').get();
+  //   for (var message in messages.docs) {
+  //     print(message.data());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +101,9 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Expanded(
                     child: TextField(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    messageText = value;
+                  },
                   decoration: const InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -90,7 +113,17 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 )),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      try {
+                        _firestore.collection('messages').add({
+                          'text': messageText,
+                          'sender': signedUser.email,
+                        });
+                      } on Exception catch (e) {
+                        // TODO
+                        print(e);
+                      }
+                    },
                     child: Text('Send',
                         style: TextStyle(
                             color: Colors.blue[800],
