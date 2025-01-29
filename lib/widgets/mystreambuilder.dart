@@ -15,7 +15,7 @@ class MyStreamBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection('messages').snapshots(),
+        stream: _firestore.collection('messages').orderBy('time').snapshots(),
         builder: (context, snapshot) {
           List<MessageLine> messageWidgets = [];
 
@@ -29,6 +29,7 @@ class MyStreamBuilder extends StatelessWidget {
           for (var message in messages) {
             final messageText = message.get('text');
             final messageSender = message.get('sender');
+
             final messageWidget = MessageLine(
               messageText: messageText,
               messageSender: messageSender,
@@ -39,6 +40,7 @@ class MyStreamBuilder extends StatelessWidget {
 
           return Expanded(
             child: ListView(
+              reverse: true,
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               children: messageWidgets,
             ),

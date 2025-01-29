@@ -16,7 +16,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   late User signedUser;
   String? messageText;
-  late String currentUser ;
+  late String currentUser;
 
   final fieldText = TextEditingController();
 
@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
     final snapshots = _firestore.collection('messages').snapshots();
 
     await for (var snapshot in snapshots) {
-      for (var message in snapshot.docs) {
+      for (var message in snapshot.docs.reversed) {
         print(message.data());
       }
     }
@@ -124,6 +124,7 @@ class _ChatPageState extends State<ChatPage> {
                         _firestore.collection('messages').add({
                           'text': messageText,
                           'sender': signedUser.email,
+                          'time': FieldValue.serverTimestamp()
                         });
 
                         fieldText.clear();
