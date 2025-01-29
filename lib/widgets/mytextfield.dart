@@ -12,6 +12,7 @@ class MyTexfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      
       keyboardType: keyboardType,
       obscureText: isabscured,
       textAlign: TextAlign.center,

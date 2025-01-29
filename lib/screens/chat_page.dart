@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
     final snapshots = _firestore.collection('messages').snapshots();
 
     await for (var snapshot in snapshots) {
-      for (var message in snapshot.docs.reversed) {
+      for (var message in snapshot.docs) {
         print(message.data());
       }
     }

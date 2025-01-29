@@ -35,6 +35,7 @@ class _SignInPageState extends State<SignInPage> {
                 height: 30,
               ),
               MyTexfield(
+                
                 keyboardType: TextInputType.emailAddress,
                 isabscured: false,
                 hintText: 'Email',
@@ -60,16 +61,18 @@ class _SignInPageState extends State<SignInPage> {
                   color: Colors.orange[900]!,
                   onPressed: () async {
                     try {
-                      setState(() {
-                        _saving = true;
-                      });
-                      final user = await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
-                      Navigator.pushNamed(context, 'chat_page');
-                      setState(() {
-                        _saving = false;
-                      });
-                                        } on Exception catch (e) {
+                      if (email.isNotEmpty && password.isNotEmpty) {
+                        setState(() {
+                          _saving = true;
+                        });
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        Navigator.pushNamed(context, 'chat_page');
+                        setState(() {
+                          _saving = false;
+                        });
+                      }
+                    } catch (e) {
                       // TODO
                       print(e);
                     }

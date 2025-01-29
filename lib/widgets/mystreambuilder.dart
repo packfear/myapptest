@@ -25,7 +25,7 @@ class MyStreamBuilder extends StatelessWidget {
               backgroundColor: Colors.orange[700],
             ));
           }
-          final messages = snapshot.data!.docs;
+          final messages = snapshot.data!.docs.reversed;
           for (var message in messages) {
             final messageText = message.get('text');
             final messageSender = message.get('sender');
