@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/widgets/message_line.dart';
+import 'package:myapp/widgets/mystreambuilder.dart';
+
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -11,11 +14,9 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
-
   late User signedUser;
   String? messageText;
+  late String currentUser ;
 
   final fieldText = TextEditingController();
 
@@ -30,6 +31,7 @@ class _ChatPageState extends State<ChatPage> {
       final user = _auth.currentUser;
       if (user != null) {
         signedUser = user;
+        currentUser = signedUser.email.toString();
         print(user.email);
       }
     } on Exception catch (e) {
@@ -92,34 +94,7 @@ class _ChatPageState extends State<ChatPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          StreamBuilder<QuerySnapshot>(
-              stream: _firestore.collection('messages').snapshots(),
-              builder: (context, snapshot) {
-                List<MessageLine> messageWidgets = [];
-
-                if (!snapshot.hasData) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                    backgroundColor: Colors.orange[700],
-                  ));
-                }
-                final messages = snapshot.data!.docs;
-                for (var message in messages) {
-                  final messageText = message.get('text');
-                  final messageSender = message.get('sender');
-                  final messageWidget = MessageLine(
-                      messageText: messageText, messageSender: messageSender);
-                  messageWidgets.add(messageWidget);
-                }
-
-                return Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
-                    children: messageWidgets,
-                  ),
-                );
-              }),
+          MyStreamBuilder(firestore: _firestore, signedUser: currentUser),
           Container(
             decoration: const BoxDecoration(
                 border: Border(
