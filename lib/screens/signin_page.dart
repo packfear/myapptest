@@ -65,13 +65,11 @@ class _SignInPageState extends State<SignInPage> {
                       });
                       final user = await _auth.signInWithEmailAndPassword(
                           email: email, password: password);
-                      if (user != null) {
-                        Navigator.pushNamed(context, 'chat_page');
-                        setState(() {
-                          _saving = false;
-                        });
-                      }
-                    } on Exception catch (e) {
+                      Navigator.pushNamed(context, 'chat_page');
+                      setState(() {
+                        _saving = false;
+                      });
+                                        } on Exception catch (e) {
                       // TODO
                       print(e);
                     }

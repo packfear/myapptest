@@ -89,7 +89,7 @@ class _ChatPageState extends State<ChatPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          StreamBuilder(
+          StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection('messages').snapshots(),
               builder: (context, snapshot) {
                 List<Text> messageWidgets = [];
@@ -105,7 +105,9 @@ class _ChatPageState extends State<ChatPage> {
                   messageWidgets.add(messageWidget);
                 }
 
-                return Column();
+                return Column(
+                  children: messageWidgets,
+                );
               }),
           Container(
             decoration: const BoxDecoration(

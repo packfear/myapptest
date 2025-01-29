@@ -84,10 +84,8 @@ class _SingUpPageState extends State<SingUpPage> {
                               final user =
                                   await _auth.createUserWithEmailAndPassword(
                                       email: email, password: password);
-                              if (user != null) {
-                                Navigator.pushNamed(context, 'chat_page');
-                              }
-                              setState(() {
+                              Navigator.pushNamed(context, 'chat_page');
+                                                          setState(() {
                                 _saving = false;
                               });
                             }
