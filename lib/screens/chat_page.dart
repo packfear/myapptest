@@ -16,6 +16,8 @@ class _ChatPageState extends State<ChatPage> {
   late User signedUser;
   String? messageText;
 
+  final fieldText = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -94,7 +96,12 @@ class _ChatPageState extends State<ChatPage> {
               builder: (context, snapshot) {
                 List<Text> messageWidgets = [];
 
-                if (!snapshot.hasData) {}
+                if (!snapshot.hasData) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: Colors.orange[700],
+                  ));
+                }
                 final messages = snapshot.data!.docs;
                 for (var message in messages) {
                   final messageText = message.get('text');
@@ -120,6 +127,7 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  controller: fieldText,
                   onChanged: (value) {
                     messageText = value;
                   },
@@ -138,6 +146,8 @@ class _ChatPageState extends State<ChatPage> {
                           'text': messageText,
                           'sender': signedUser.email,
                         });
+
+                        fieldText.clear();
                       } on Exception catch (e) {
                         // TODO
                         print(e);
