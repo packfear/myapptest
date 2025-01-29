@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/widgets/message_line.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -94,7 +95,7 @@ class _ChatPageState extends State<ChatPage> {
           StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection('messages').snapshots(),
               builder: (context, snapshot) {
-                List<Text> messageWidgets = [];
+                List<MessageLine> messageWidgets = [];
 
                 if (!snapshot.hasData) {
                   return Center(
@@ -106,14 +107,17 @@ class _ChatPageState extends State<ChatPage> {
                 for (var message in messages) {
                   final messageText = message.get('text');
                   final messageSender = message.get('sender');
-                  final messageWidget = Text(
-                    '$messageText - $messageSender',
-                  );
+                  final messageWidget = MessageLine(
+                      messageText: messageText, messageSender: messageSender);
                   messageWidgets.add(messageWidget);
                 }
 
-                return Column(
-                  children: messageWidgets,
+                return Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 10),
+                    children: messageWidgets,
+                  ),
                 );
               }),
           Container(
